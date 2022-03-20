@@ -1,0 +1,127 @@
+.line {
+  border: 1px solid white;
+}
+
+body {
+  background-color: #1c222e;
+  font-size: 2rem;
+  color: white;
+}
+
+nav {
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  font-weight: bolder;
+}
+main {
+  height: 85vh;
+  display: flex;
+  padding-bottom: 0.5rem;
+}
+
+footer {
+  height: 15vh;
+  padding-bottom: 1rem;
+}
+
+.left_body {
+  height: 100%;
+  width: 25%;
+}
+
+.center_body {
+  height: 100%;
+  width: 50%;
+}
+
+.right_body {
+  height: 100%;
+  width: 25%;
+}
+
+.left_top {
+  height: 80%;
+}
+
+.left_bottom {
+  height: 20%;
+}
+
+.center_level {
+  height: 10%;
+}
+
+.center_timer {
+  height: 40%;
+}
+
+.center_blinds {
+  height: 30%;
+  font-size: 3.5rem;
+}
+
+.center_bottom {
+  height: 20%;
+}
+
+.right_top {
+  height: 33.3333%;
+}
+
+.right_center {
+  height: 33.3333%;
+}
+
+.right_bottom {
+  height: 33.3333%;
+}
+
+.timer_font {
+  font-size: 12rem;
+  font-weight: bolder;
+}
+
+.title_yellow {
+  color: #f2c86b;
+  font-weight: bolder;
+  font-size: 2.5rem;
+  padding-bottom: 1rem;
+}
+
+.title_white {
+  color: white;
+  font-weight: bolder;
+  font-size: 2.5rem;
+}
+
+.footer_border {
+  border-top: 3px solid white;
+  border-bottom: 3px solid white;
+}
+
+.footer_bottom {
+  border-bottom: 1px solid white;
+}
+
+.btn-lg {
+  width: 10rem;
+}
+
+.btn-sm {
+  width: 2rem;
+  height: 2rem;
+}
+
+.status_area {
+  width: 25%;
+}
+
+.prize_area {
+  width: 25%;
+}
+.statistics_area {
+  width: 40%;
+}
