@@ -9,45 +9,24 @@
     <title>Texas Holdem Tournament Timer</title>
 </head>
 <body class="container">
-    <div>
+    <div class="text-center fs-1 mt-5">
         Blind Structure
-
-    </div>
-
-    <div>
-        <button>Main 80%</button>
-        <button>Daily 70%</button>
-        <button>Event 80%</button>
-        <button onclick="Customize()">Customize</button>
     </div>
     <div>
-        <div>
-            <input placeholder="Level" id="level"></input>
-            <input placeholder="Break" id="break"></input>
-            <button onclick="make_structure()">만들기</button>
-
-            
-            
-        </div>
+        
         <div class="d-flex justify-content-around pt-5">
             <div class="structure_list">
                 <div class="pb-2" id="structure_list">
-                    리스트
                 </div>
-                <div style="border: 1px solid black;" class="pt-2">
-                    dasf
+                <div>
+                    <input placeholder="Level" id="level"></input>
+                    <input placeholder="Break level" id="break"></input>
+                    <button onclick = "make_structure()">추가</button>
                 </div>
             </div>
-            <div class="structure">
-                <div class="d-flex justify-content-end">
-                    <input placeholder="Title" id="title" class="me-3"></input>
-                    <button onclick="save_structure()" id="save_structure">저장하기</button>
-                </div>
-                <div  class="pt-2 d-flex justify-content-end" >
-                    <div id="structure" style="border: 1px solid black;">
+            <div class="structure" id="structure">
 
-                    </div>
-                </div>
+                
             </div>
             
         </div>
@@ -64,28 +43,225 @@
     <script>
         let level_num = document.getElementById("level")
         let break_num = document.getElementById("break")
-        let title = document.getElementById("title")
+        let title = ""
 
-        document.getElementById("save_structure").style.display = "none"
-        document.getElementById("title").style.display = "none"
 
+        window.addEventListener("hashchange", router)
+        router()
+
+        function router (){
+            let routePath = location.hash
+            if(routePath === ""){
+                loadStructureList()
+            }else if(routePath.indexOf("#/structure/") >= 0) {
+                loadStructure()
+                loadStructureList()
+            }else if(routePath.indexOf("#/make/") >=0){
+                loadStructureList()
+            }
+        }
+
+        function loadStructureList(){
+            let dataList = []
+            let list_template = ""
+            db.collection('Blind Structure')
+                .get()
+                .then((response)=>{
+                    response.forEach((doc)=>{
+                        dataList.push({
+                            id : doc.id,
+                            other : doc.data(),
+                        })
+                    })
+                    
+                    for(let i = 0 ; i < dataList.length ;i++){
+                        list_template += `<div class="mb-2"><a href="#/structure/${dataList[i].id}">${dataList[i].other.title}</div>`
+                    }
+                    
+                    document.getElementById("structure_list").innerHTML = list_template
+                })
+                .catch((error) => {
+                    console.log("Error onLoadData documents:", error);
+                })
+        }
         
+        function loadStructure(){
+            let dataList = []
+            let structureId = location.hash.substring(12)
+            let structure_template = `
+                <div class="d-flex justify-content-center align-items-center" >
+                    <input value="{{title}}" id="title_loaded" class="fs-2 text-center" style="border:none"></input>
+                </div>
+                <div class="d-flex justify-content-center align-items-end"  >
+                    <b class="pe-2">Level :</b>  <input class="me-5 text-center" id="level_loaded" value="{{level}}" style="width:7%; border:none" readonly></input>
+                    <b class="pe-2">Break level:</b>  <input class="text-center" id="break_loaded" value="{{break}}"  style="width:7%; border:none" readonly></input>
+                </div>
+                <div  class="d-flex justify-content-center mt-2" >
+                    <div style="border: 1px solid black;">
+                        <table>    
+                            <tr>
+                                <th>level</th>
+                                <th>Small</th>
+                                <th>big</th>
+                                <th>Ante</th>
+                            </tr>
+                            {{structure}}
+                            
+                        </table>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center pt-2">
+                    <div class="d-flex justify-content-end">
+                        <button onclick="updateStructure()" class="me-3">수정하기</button>
+                        <button onclick="addStructure()" class="me-3">추가하기</button>
+                        <button onclick="deleteStructure()">삭제하기</button>
+                    </div>
+                </div>`
+            db.collection('Blind Structure')
+                .get()
+                .then((response)=>{
+                    response.forEach((doc)=>{
+                        dataList.push({
+                            id : doc.id,
+                            other : doc.data(),
+                        })
+                    })
+
+                    let theStructure = dataList.find(doc=>doc.id == structureId)
+                    let structure = []
+                    
+                    for(let i = 1 ; i <= theStructure.other.level_num ;i++){
+                        let sb_key = 'sb'+ i
+                        let bb_key = 'bb'+ i
+                        let at_key = 'at'+ i
+                        let sb = theStructure.other[sb_key]
+                        let bb = theStructure.other[bb_key]
+                        let at = theStructure.other[at_key]
+
+                        
+                        if(i%theStructure.other.break_num !== 0 || i == theStructure.other.level_num){
+                            structure.push(`
+                                <tr>
+                                    <th>${i}</th>
+                                    <td><input id="sb${i}" type="number" value="${sb}" class="text-end"></input></td>
+                                    <td><input id="bb${i}" type="number" value="${bb}" class="text-end"></input></td>
+                                    <td><input id="at${i}" type="number" value="${at}" class="text-end"></input></td>
+                                </tr>
+                            `)
+                        }else{
+                            structure.push(`
+                                <tr>
+                                    <th>${i}</th>
+                                    <td><input id="sb${i}" type="number" value="${sb}" class="text-end"></input></td>
+                                    <td><input id="bb${i}" type="number" value="${bb}" class="text-end"></input></td>
+                                    <td><input id="at${i}" type="number" value="${at}" class="text-end"></input></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="4">break</th>
+                                </tr>`
+                            )
+                        }
+                    }
+                    structure_template = structure_template.replace("{{title}}",theStructure.other.title)
+                    structure_template = structure_template.replace("{{level}}",theStructure.other.level_num)
+                    structure_template = structure_template.replace("{{break}}",theStructure.other.break_num)
+                    structure_template = structure_template.replace("{{structure}}",structure.join(" "))
+                    document.getElementById("structure").innerHTML = structure_template
+
+                })
+        }
+
+        function addStructure(){
+            console.log("추가")
+            level_num = document.getElementById("level_loaded")
+            break_num = document.getElementById("break_loaded")
+            title = document.getElementById("title_loaded")
+            let blinds = {}
+            blinds.title = title.value
+            blinds.break_num = break_num.value
+            blinds.level_num = level_num.value
+
+
+            for(let i = 1 ; i <= level_num.value ; i++){
+                let sb_val = document.getElementById(`sb${i}`).value
+                let bb_val = document.getElementById(`bb${i}`).value
+                let at_val = document.getElementById(`at${i}`).value
+                blinds[`sb${i}`] = sb_val
+                blinds[`bb${i}`] = bb_val
+                blinds[`at${i}`] = at_val
+                }
+
+            db.collection('Blind Structure').add(blinds)
+                .then(()=>{
+                    loadStructureList()
+                })
+        }
+
+        function updateStructure(){
+            console.log("수정")
+            level_num = document.getElementById("level_loaded")
+            break_num = document.getElementById("break_loaded")
+            title = document.getElementById("title_loaded")
+            let blinds = {}
+            blinds.title = title.value
+            blinds.break_num = break_num.value
+            blinds.level_num = level_num.value
+
+            for(let i = 1 ; i <= level_num.value ; i++){
+                let sb_val = document.getElementById(`sb${i}`).value
+                let bb_val = document.getElementById(`bb${i}`).value
+                let at_val = document.getElementById(`at${i}`).value
+                blinds[`sb${i}`] = sb_val
+                blinds[`bb${i}`] = bb_val
+                blinds[`at${i}`] = at_val
+                
+                }
+
+            let id = location.hash.substring(12)
+            console.log(id)
+            console.log(level_num.value)
+            db.collection('Blind Structure').doc(id).update(blinds)
+                .then(()=>{
+                    loadStructureList()
+                })
+        }
+
+        function deleteStructure(){
+            console.log("삭제")
+            let id = location.hash.substring(12)
+            db.collection('Blind Structure').doc(id).delete()
+                .then(()=>{
+                    window.location.href="#"
+                    document.getElementById("structure").innerHTML = " "
+                })
+        }
+
 
         function make_structure(){
             if(level_num.value == 0){
                 alert('레벨을 입력하세요')
             }else{
+                window.location.href="#/make/"
+
                 let template = `
-                    <table>    
-                        <tr>
-                            <th>level</th>
-                            <th>Small</th>
-                            <th>big</th>
-                            <th>Ante</th>
-                        </tr>
-                        {{structure}}
-                        
-                    </table>`
+                    <div class="d-flex justify-content-end pb-2">
+                        <input placeholder="Title" id="title" class="me-3"></input>
+                        <button onclick="save_structure()">저장하기</button>
+                    </div>
+                    <div  class="d-flex justify-content-end" >
+                        <div style="border: 1px solid black;">
+                            <table>    
+                                <tr>
+                                    <th>level</th>
+                                    <th>Small</th>
+                                    <th>big</th>
+                                    <th>Ante</th>
+                                </tr>
+                                {{structure}}
+                                
+                            </table>
+                        </div>
+                    </div>`
 
                 let structure = []
                 for(let i = 1 ; i <= level_num.value ; i++){
@@ -115,13 +291,13 @@
                 }
                 template = template.replace("{{structure}}",structure.join(" "))
                 document.getElementById("structure").innerHTML = template
-                document.getElementById("save_structure").style.display = "block"
-                document.getElementById("title").style.display = "block"
             }
         }
 
         function save_structure(){
             let blinds = {}
+            title = document.getElementById("title")
+
             blinds.title = title.value
             blinds.break_num = break_num.value
             blinds.level_num = level_num.value
@@ -137,6 +313,9 @@
                 }
 
             db.collection('Blind Structure').add(blinds)
+            .then(()=>{
+                    loadStructureList()
+                })
 
         }
 

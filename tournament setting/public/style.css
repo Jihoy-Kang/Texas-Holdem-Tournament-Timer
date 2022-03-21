@@ -1,0 +1,19 @@
+body {
+  height: 100vh;
+}
+
+.chip_area {
+  width: 40%;
+}
+
+.prize_area {
+  width: 40%;
+}
+
+.chip_area td input {
+  width: 50%;
+}
+
+.prize_area td input {
+  width: 50%;
+}

@@ -3,9 +3,19 @@ table {
 }
 
 .structure_list {
-  width: 30%;
+  width: 40%;
 }
 
 .structure {
-  width: 70%;
+  width: 60%;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  font-size: larger;
+  font-weight: bold;
 }
