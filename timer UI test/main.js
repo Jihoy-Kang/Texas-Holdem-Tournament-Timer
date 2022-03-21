@@ -1,8 +1,17 @@
+/* 개선사항
+1. Reset 버튼 -> 브레이크일때 브레이크 리셋 / 블라인드일때 블라인드 리셋
+2. 블라인드 테이블
+3. 프라이즈 자동 변경
+4. 시작 전 시간 반영
+ */
+
+
+
 //변동값
 const blind_time = 360
 const break_time = 300
 const break_level = 5
-const next_break = (blind_time*break_level)+break_level-1
+const next_break = (blind_time*break_level)
 let time = blind_time
 let b_time = break_time
 let break_remaining = next_break
@@ -29,10 +38,6 @@ let avgChips = 0
 let totalPrize = 0
 
 
-
-
-
-
 let btn = false
 let hour = "";
 let min = "";
@@ -40,6 +45,8 @@ let sec = "";
 let b_hour = "";
 let b_min = "";
 let b_sec = "";
+
+document.getElementById("stop").style.display = "none"
 
 function play(){
     btn = true
@@ -53,8 +60,13 @@ function stop(){
 }
 
 function reset(){
-    time = blind_time
-    break_remaining = next_break
+    if(level%break_level != 0){
+        time = blind_time
+        break_remaining = next_break
+    }else{
+        break_remaining = next_break + break_time
+        b_time = break_time
+    }
 }
 
 
@@ -85,12 +97,12 @@ function timer(){
             document.getElementById("stop").style.display = "none"
         }
     
-        if(time < 0){
+        if(time <= 0){
             level++
             time = blind_time
         }
     
-        if(break_remaining < 0){
+        if(break_remaining <= 0){
             clearInterval(start)
             break_remaining = next_break + break_time
             b_time = break_time
@@ -127,7 +139,7 @@ function break_timer(){
             document.getElementById("stop").style.display = "none"
         }
 
-        if(b_time < 0){
+        if(b_time <= 0){
             clearInterval(_break)
             time = blind_time
             timer()
