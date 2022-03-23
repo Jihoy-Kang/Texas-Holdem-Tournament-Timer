@@ -10,21 +10,23 @@
 </head>
 <body class="container-fluid">
     <nav class="">
-        <div class="text-center fs-1 mt-5">
-            Setting
+        <div class="dropdown text-center fs-1 mt-5">
+            <b class="me-2">Setting</b>
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="setList">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Add</a></li>
+            </ul>
         </div>
+
     </nav>
     <main class="d-flex mt-5 justify-content-around">
         <div class="chip_area mb-2" >
-            <div class="dropdown d-flex justify-content-end">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <b>Titles</b>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Add</a></li>
-                </ul>
+            <div class="text-end mb-2">
+                <b>Title</b>
+                <input id="set_title" placeholder="Title" class="text-center" style="width:30%">
             </div>
             <div>
                 <table class="table">
@@ -38,26 +40,28 @@
                     <tbody>
                         <tr>
                             <th>Buy-in</th>
-                            <td class="text-center"><input type="number" class="text-end" value="40000"></td>
-                            <td class="text-center"><input type="number" class="text-end" value="50000"></td>
+                            <td class="text-center"><input id="set_buyin_chip" type="number" class="text-end" value="40000"></td>
+                            <td class="text-center"><input id="set_buyin_cash"type="number" class="text-end" value="50000"></td>
                         </tr>
                         <tr>
-                            <th>Rebuy</th>
-                            <td class="text-center"><input type="number" class="text-end" value="50000"></td>
-                            <td class="text-center"><input type="number" class="text-end" value="50000"></td>
+                            <th>1st Rebuy</th>
+                            <td class="text-center"><input id="set_rebuy_chip" type="number" class="text-end" value="50000"></td>
+                            <td class="text-center"><input id="set_rebuy_cash" type="number" class="text-end" value="50000"></td>
+                        </tr>
+                        <tr>
+                            <th>2nd Rebuy</th>
+                            <td class="text-center"><input id="set_rebuy2_chip" type="number" class="text-end" value="50000"></td>
+                            <td class="text-center"><input id="set_rebuy2_cash" type="number" class="text-end" value="60000"></td>
+                        </tr>
+                        <tr>
+                            <th>Double Rebuy</th>
+                            <td class="text-center"><input id="set_double_chip"type="number" class="text-end" value="90000"></td>
+                            <td class="text-center"><input id="set_double_cash"type="number" class="text-end" value="110000"></td>
                         </tr>
                         <tr>
                             <th>Addon</th>
-                            <td class="text-center"><input type="number" class="text-end" value="60000"></td>
-                            <td class="text-center"><input type="number" class="text-end" value="50000"></td>
-                        </tr>
-                        <tr>
-                            <th colspan="2">Min.Prize</th>
-                            <td class="text-center"><input class="text-end" type="number" value="0"></td>
-                        </tr>
-                        <tr>
-                            <th colspan="2">Extra.Prize</th>
-                            <td class="text-center"><input class="text-end" type="number" value="0"></td>
+                            <td class="text-center"><input id="set_addon_chip" type="number" class="text-end" value="0"></td>
+                            <td class="text-center"><input id="set_addon_cash" type="number" class="text-end" value="0"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -66,8 +70,8 @@
         </div>
         <div class="prize_area">
             <div class="text-end mb-2">
-                <b>Total prize</b>
-                <input placeholder="Enter Number..." class="text-center" style="width:30%"> %
+                <b>Total Prize</b>
+                <input id="prize_percentage" value="80" class="text-center" style="width:30%" readonly> %
             </div>
             <div>
                 <table class="table">
@@ -80,23 +84,23 @@
                     <tbody>
                         <tr>
                             <th class="text-center">1</th>
-                            <td class="d-flex justify-content-center"><input class=" text-center" value="60"></td>
+                            <td class="d-flex justify-content-center"><input class=" text-center" value="60" id="rank_1" onchange="prize_percentage()"></td>
                         </tr>
                         <tr>
                             <th class="text-center">2</th>
-                            <td class="d-flex justify-content-center"><input class=" text-center" value="20"></td>
+                            <td class="d-flex justify-content-center"><input class=" text-center" value="20" id="rank_2" onchange="prize_percentage()"></td>
                         </tr>
                         <tr>
                             <th class="text-center">3</th>
-                            <td class="d-flex justify-content-center"><input class=" text-center" value=""></td>
+                            <td class="d-flex justify-content-center"><input class=" text-center" value="0" id="rank_3" onchange="prize_percentage()"></td>
                         </tr>
                         <tr>
                             <th class="text-center">4</th>
-                            <td class="d-flex justify-content-center"><input class=" text-center" value=""></td>
+                            <td class="d-flex justify-content-center"><input class=" text-center" value="0" id="rank_4" onchange="prize_percentage()"></td>
                         </tr>
                         <tr>
                             <th class="text-center">5</th>
-                            <td class="d-flex justify-content-center"><input class=" text-center" value=""></td>
+                            <td class="d-flex justify-content-center"><input class=" text-center" value="0" id="rank_5" onchange="prize_percentage()"></td>
                         </tr>
 
                     </tbody>
@@ -105,8 +109,12 @@
             
         </div>
     </main>
-    <footer>
-        
+    <footer class="container">
+        <div class="d-flex justify-content-end">
+            <button class="me-2" onclick="set_save()">저장하기</button>
+            <button class="me-2" onclick="set_update()">수정하기</button>
+            <button onclick="set_delete()">삭제하기</button>
+        </div>
     </footer>
     
     
@@ -117,15 +125,166 @@
     <script src="https://kit.fontawesome.com/dab690a483.js" crossorigin="anonymous"></script>
     <script src="main.js"></script>
     <script>
-        db.collection("Blind Structure").get()
-            .then((response)=>{response.forEach(doc => {
-                dataList = {
-                    id : doc.id,
-                    other : doc.data()
-                }
-                console.log(dataList.id)
-                });
+        let set_title = document.getElementById("set_title").value
+        let set_buyin_chip = document.getElementById("set_buyin_chip").value
+        let set_buyin_cash = document.getElementById("set_buyin_cash").value
+        let set_rebuy_chip = document.getElementById("set_rebuy_chip").value 
+        let set_rebuy_cash = document.getElementById("set_rebuy_cash").value 
+        let set_rebuy2_chip = document.getElementById("set_rebuy2_chip").value
+        let set_rebuy2_cash = document.getElementById("set_rebuy2_cash").value
+        let set_double_chip = document.getElementById("set_double_chip").value
+        let set_double_cash = document.getElementById("set_double_cash").value
+        let set_addon_chip = document.getElementById("set_addon_chip").value 
+        let set_addon_cash = document.getElementById("set_addon_cash").value 
+
+        let total_prize = document.getElementById("prize_percentage").value
+        let rank_1 = document.getElementById("rank_1").value
+        let rank_2 = document.getElementById("rank_2").value
+        let rank_3 = document.getElementById("rank_3").value
+        let rank_4 = document.getElementById("rank_4").value
+        let rank_5 = document.getElementById("rank_5").value
+
+        window.addEventListener("hashchange",router)
+        
+        function setting_main(){
+            let setList = []
+            let setTitle = ''
+
+            db.collection("setting").get()
+                .then((response)=>{response.forEach((doc)=>{
+                        setList.push({
+                                set_id : doc.id,
+                                set_other : doc.data()
+                            })
+                    })
+
+                    for(let i = 0 ; i < setList.length ; i++){
+                        setTitle += `<li><a class="dropdown-item" href="#/setting/${setList[i].set_id}">${setList[i].set_other.title}</a></li>`
+                    }
+            document.getElementById('setList').innerHTML = setTitle
+            console.log("main")
             })
+        }
+
+        
+
+        function router(){
+            let routePath = location.hash
+            let id = location.hash.substring(10)
+            if (routePath === ""){
+                setting_main()
+            }
+        }
+        router()
+
+        function set_load(){
+            let setList = []
+            let id = location.hash.substring(10)
+            console.log("불러오기 :",id)
+            db.collection("setting").get()
+                .then((response)=>{response.forEach((doc)=>{
+                        setList.push({
+                            set_id : doc.id,
+                            set_other : doc.data()
+                        })
+                    })
+                    console.log(selected_setting.set_other.title)
+                    let selected_setting = setList.find(doc => doc.set_id === id)
+                        document.getElementById("set_title").value = selected_setting.set_other.title
+                        document.getElementById("set_buyin_chip").value = selected_setting.set_other.buyin_chip
+                        document.getElementById("set_buyin_cash").value = selected_setting.set_other.buyin_cash
+                        document.getElementById("set_rebuy_chip").value = selected_setting.set_other.rebuy_chip
+                        document.getElementById("set_rebuy_cash").value = selected_setting.set_other.rebuy_cash
+                        document.getElementById("set_rebuy2_chip").value = selected_setting.set_other.rebuy2_chip
+                        document.getElementById("set_rebuy2_cash").value = selected_setting.set_other.rebuy2_cash
+                        document.getElementById("set_double_chip").value = selected_setting.set_other.double_chip
+                        document.getElementById("set_double_cash").value = selected_setting.set_other.double_cash
+                        document.getElementById("set_addon_chip").value = selected_setting.set_other.addon_chip
+                        document.getElementById("set_addon_cash").value = selected_setting.set_other.addon_cash
+
+                        document.getElementById("prize_percentage").value = selected_setting.set_other.prize_percentage
+                        document.getElementById("rank_1").value = selected_setting.set_other.rank_1
+                        document.getElementById("rank_2").value = selected_setting.set_other.rank_2
+                        document.getElementById("rank_3").value = selected_setting.set_other.rank_3
+                        document.getElementById("rank_4").value = selected_setting.set_other.rank_4
+                        document.getElementById("rank_5").value = selected_setting.set_other.rank_5
+                })
+        }
+        
+        function set_save(){
+            db.collection('setting').add({
+                title : "ㅇㅇㅇ",
+                prize_percentage : total_prize,
+                buyin_chip  : set_buyin_chip,
+                buyin_cash  : set_buyin_cash, 
+                rebuy_chip  : set_rebuy_chip, 
+                rebuy_cash  : set_rebuy_cash, 
+                rebuy2_chip : set_rebuy2_chip,
+                rebuy2_cash : set_rebuy2_cash,
+                double_chip : set_double_chip,
+                double_cash : set_double_cash,
+                addon_chip  : set_addon_chip, 
+                addon_cash  : set_addon_cash,
+                rank_1 : rank_1,
+                rank_2 : rank_2,
+                rank_3 : rank_3,
+                rank_4 : rank_4,
+                rank_5 : rank_5,
+            })
+                .then(()=>{
+                    location.href="#"
+                    console.log("추가ㄴ")
+                })
+        }
+
+        function set_update(){
+            id = location.hash.substring(10)
+            console.log(id)
+            db.collection('setting').doc(id).update({
+                title : "ㅇㅇㅇ",
+                prize_percentage : total_prize,
+                buyin_chip  : set_buyin_chip,
+                buyin_cash  : set_buyin_cash, 
+                rebuy_chip  : set_rebuy_chip, 
+                rebuy_cash  : set_rebuy_cash, 
+                rebuy2_chip : set_rebuy2_chip,
+                rebuy2_cash : set_rebuy2_cash,
+                double_chip : set_double_chip,
+                double_cash : set_double_cash,
+                addon_chip  : set_addon_chip, 
+                addon_cash  : set_addon_cash,
+                rank_1 : rank_1,
+                rank_2 : rank_2,
+                rank_3 : rank_3,
+                rank_4 : rank_4,
+                rank_5 : rank_5,
+            })
+                .then(()=>{
+                    console.log("업데이트")
+                    location.href="#"
+                })
+        }
+
+        function set_delete(){
+            id = location.hash.substring(10)
+            console.log(id)
+            db.collection('setting').doc(id).delete()
+                .then(()=>{
+                    console.log("삭제")
+                    location.href="#"
+                })
+        }
+
+        function prize_percentage(){
+            let totalPercentage = 0
+            for(let i = 1; i <= 5 ; i++){
+                totalPercentage += Number(document.getElementById(`rank_${i}`).value)
+                console.log(totalPercentage)
+            }
+            document.getElementById("prize_percentage").value = totalPercentage
+        }
+    
+
     </script>
 </body>
 </html>

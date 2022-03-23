@@ -104,6 +104,7 @@
                                 <th>Small</th>
                                 <th>big</th>
                                 <th>Ante</th>
+                                <th>Time(min)</th>
                             </tr>
                             {{structure}}
                             
@@ -134,9 +135,13 @@
                         let sb_key = 'sb'+ i
                         let bb_key = 'bb'+ i
                         let at_key = 'at'+ i
+                        let time_key = 'time'+i
+                        let b_time_key = 'b_time'+i
                         let sb = theStructure.other[sb_key]
                         let bb = theStructure.other[bb_key]
                         let at = theStructure.other[at_key]
+                        let time = theStructure.other[time_key]
+                        let b_time =theStructure.other[b_time_key]
 
                         
                         if(i%theStructure.other.break_num !== 0 || i == theStructure.other.level_num){
@@ -146,6 +151,7 @@
                                     <td><input id="sb${i}" type="number" value="${sb}" class="text-end"></input></td>
                                     <td><input id="bb${i}" type="number" value="${bb}" class="text-end"></input></td>
                                     <td><input id="at${i}" type="number" value="${at}" class="text-end"></input></td>
+                                    <td><input id="time${i}" type="number" value="${time}" class="text-end"></input></td>
                                 </tr>
                             `)
                         }else{
@@ -155,9 +161,11 @@
                                     <td><input id="sb${i}" type="number" value="${sb}" class="text-end"></input></td>
                                     <td><input id="bb${i}" type="number" value="${bb}" class="text-end"></input></td>
                                     <td><input id="at${i}" type="number" value="${at}" class="text-end"></input></td>
+                                    <td><input id="time${i}" type="number" value="${time}" class="text-end"></input></td>
                                 </tr>
                                 <tr>
                                     <th colspan="4">break</th>
+                                    <td><input id="b_time${i}" type="number" value="${b_time}" class="text-end"></input></td>
                                 </tr>`
                             )
                         }
@@ -183,13 +191,30 @@
 
 
             for(let i = 1 ; i <= level_num.value ; i++){
-                let sb_val = document.getElementById(`sb${i}`).value
-                let bb_val = document.getElementById(`bb${i}`).value
-                let at_val = document.getElementById(`at${i}`).value
-                blinds[`sb${i}`] = sb_val
-                blinds[`bb${i}`] = bb_val
-                blinds[`at${i}`] = at_val
+                if(i%break_num.value !== 0 || i == level_num.value){
+                    let sb_val = document.getElementById(`sb${i}`).value
+                    let bb_val = document.getElementById(`bb${i}`).value
+                    let at_val = document.getElementById(`at${i}`).value
+                    let time_val = document.getElementById(`time${i}`).value
+                    
+                    blinds[`sb${i}`] = sb_val
+                    blinds[`bb${i}`] = bb_val
+                    blinds[`at${i}`] = at_val
+                    blinds[`time${i}`] = time_val
+
+                }else {
+                    let sb_val = document.getElementById(`sb${i}`).value
+                    let bb_val = document.getElementById(`bb${i}`).value
+                    let at_val = document.getElementById(`at${i}`).value
+                    let time_val = document.getElementById(`time${i}`).value
+                    let b_time_val = document.getElementById(`b_time${i}`).value
+                    blinds[`sb${i}`] = sb_val
+                    blinds[`bb${i}`] = bb_val
+                    blinds[`at${i}`] = at_val
+                    blinds[`time${i}`] = time_val
+                    blinds[`b_time${i}`] = b_time_val
                 }
+            }
 
             db.collection('Blind Structure').add(blinds)
                 .then(()=>{
@@ -208,18 +233,32 @@
             blinds.level_num = level_num.value
 
             for(let i = 1 ; i <= level_num.value ; i++){
-                let sb_val = document.getElementById(`sb${i}`).value
-                let bb_val = document.getElementById(`bb${i}`).value
-                let at_val = document.getElementById(`at${i}`).value
-                blinds[`sb${i}`] = sb_val
-                blinds[`bb${i}`] = bb_val
-                blinds[`at${i}`] = at_val
-                
+                if(i%break_num.value !== 0 || i == level_num.value){
+                    let sb_val = document.getElementById(`sb${i}`).value
+                    let bb_val = document.getElementById(`bb${i}`).value
+                    let at_val = document.getElementById(`at${i}`).value
+                    let time_val = document.getElementById(`time${i}`).value
+                    
+                    blinds[`sb${i}`] = sb_val
+                    blinds[`bb${i}`] = bb_val
+                    blinds[`at${i}`] = at_val
+                    blinds[`time${i}`] = time_val
+
+                }else {
+                    let sb_val = document.getElementById(`sb${i}`).value
+                    let bb_val = document.getElementById(`bb${i}`).value
+                    let at_val = document.getElementById(`at${i}`).value
+                    let time_val = document.getElementById(`time${i}`).value
+                    let b_time_val = document.getElementById(`b_time${i}`).value
+                    blinds[`sb${i}`] = sb_val
+                    blinds[`bb${i}`] = bb_val
+                    blinds[`at${i}`] = at_val
+                    blinds[`time${i}`] = time_val
+                    blinds[`b_time${i}`] = b_time_val
                 }
+            }
 
             let id = location.hash.substring(12)
-            console.log(id)
-            console.log(level_num.value)
             db.collection('Blind Structure').doc(id).update(blinds)
                 .then(()=>{
                     loadStructureList()
@@ -256,6 +295,7 @@
                                     <th>Small</th>
                                     <th>big</th>
                                     <th>Ante</th>
+                                    <th>Time(min)</th>
                                 </tr>
                                 {{structure}}
                                 
@@ -272,6 +312,7 @@
                                 <td><input id="sb${i}" type="number" value="0" class="text-end"></input></td>
                                 <td><input id="bb${i}" type="number" value="0" class="text-end"></input></td>
                                 <td><input id="at${i}" type="number" value="0" class="text-end"></input></td>
+                                <td><input id="time${i}" type="number" value="0" class="text-end"></input></td>
                             </tr>
                         `)
                     }else{
@@ -281,9 +322,11 @@
                                 <td><input id="sb${i}" type="number" value="0" class="text-end"></input></td>
                                 <td><input id="bb${i}" type="number" value="0" class="text-end"></input></td>
                                 <td><input id="at${i}" type="number" value="0" class="text-end"></input></td>
+                                <td><input id="time${i}" type="number" value="0" class="text-end"></input></td>
                             </tr>
                             <tr>
                                 <th colspan="4">break</th>
+                                <td><input id="b_time${i}" type="number" value="0" class="text-end"></input></td>
                             </tr>`
                         )
                     }
@@ -302,15 +345,33 @@
             blinds.break_num = break_num.value
             blinds.level_num = level_num.value
 
+
             for(let i = 1 ; i <= level_num.value ; i++){
-                let sb_val = document.getElementById(`sb${i}`).value
-                let bb_val = document.getElementById(`bb${i}`).value
-                let at_val = document.getElementById(`at${i}`).value
-                blinds[`sb${i}`] = sb_val
-                blinds[`bb${i}`] = bb_val
-                blinds[`at${i}`] = at_val
-                
+                if(i%break_num.value !== 0 || i == level_num.value){
+                    let sb_val = document.getElementById(`sb${i}`).value
+                    let bb_val = document.getElementById(`bb${i}`).value
+                    let at_val = document.getElementById(`at${i}`).value
+                    let time_val = document.getElementById(`time${i}`).value
+
+                    blinds[`sb${i}`] = sb_val
+                    blinds[`bb${i}`] = bb_val
+                    blinds[`at${i}`] = at_val
+                    blinds[`time${i}`] = time_val
+
+                }else {
+                    let sb_val = document.getElementById(`sb${i}`).value
+                    let bb_val = document.getElementById(`bb${i}`).value
+                    let at_val = document.getElementById(`at${i}`).value
+                    let time_val = document.getElementById(`time${i}`).value
+                    let b_time_val = document.getElementById(`b_time${i}`).value
+                    blinds[`sb${i}`] = sb_val
+                    blinds[`bb${i}`] = bb_val
+                    blinds[`at${i}`] = at_val
+                    blinds[`time${i}`] = time_val
+                    blinds[`b_time${i}`] = b_time_val
                 }
+            }
+
 
             db.collection('Blind Structure').add(blinds)
             .then(()=>{
