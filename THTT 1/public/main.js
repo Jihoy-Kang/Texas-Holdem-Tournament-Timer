@@ -8,12 +8,48 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-
 const db = firebase.firestore()
-
 
 document.getElementById("stop").style.display = "none"
 
+//Blind Structure
+blindList = []
+db.collection("Blind Structure").get()
+    .then((response)=>{response.forEach((doc)=>{
+        blindList.push({
+            id : doc.id,
+            structure : doc.data()
+        })
+
+    })
+    console.log(blindList[1].structure.title)
+    })
+
+
+function load_list(){
+    let lists = []
+    db.collection("Blind Structure").get()
+    .then((response)=>{response.forEach((doc)=>{
+        blindList.push({
+            id : doc.id,
+            structure : doc.data()
+        })
+    })
+    console.log(blindList)
+    for(let i = 0 ; i < blindList.length ; i++){
+        console.log(blindList[i].structure.title)
+        lists.push(` <li><a class="dropdown-item text-center" href="#${blindList[i].id}">${blindList[i].structure.title}</a></li>
+        `)
+    }
+    lists.push('<li><a class="dropdown-item text-center" href="#" style="border-top:1px solid black"><b>Setting</b></a></li>')
+    document.getElementById("setList").innerHTML = lists.join("")
+    })
+}
+load_list()
+
+function load_structure(){
+    
+}
 
 //setting area
 let buy_in_chip = 0
