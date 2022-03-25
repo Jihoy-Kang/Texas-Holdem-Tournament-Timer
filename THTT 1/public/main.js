@@ -13,21 +13,11 @@ const db = firebase.firestore()
 document.getElementById("stop").style.display = "none"
 
 //Blind Structure
-blindList = []
-db.collection("Blind Structure").get()
-    .then((response)=>{response.forEach((doc)=>{
-        blindList.push({
-            id : doc.id,
-            structure : doc.data()
-        })
+let theStructure = []
+let blindList = []
 
-    })
-    console.log(blindList[1].structure.title)
-    })
-
-
-function load_list(){
-    let lists = []
+function getData(cb){
+    blindList = []
     db.collection("Blind Structure").get()
     .then((response)=>{response.forEach((doc)=>{
         blindList.push({
@@ -35,20 +25,64 @@ function load_list(){
             structure : doc.data()
         })
     })
-    console.log(blindList)
-    for(let i = 0 ; i < blindList.length ; i++){
-        console.log(blindList[i].structure.title)
-        lists.push(` <li><a class="dropdown-item text-center" href="#${blindList[i].id}">${blindList[i].structure.title}</a></li>
-        `)
-    }
-    lists.push('<li><a class="dropdown-item text-center" href="#" style="border-top:1px solid black"><b>Setting</b></a></li>')
-    document.getElementById("setList").innerHTML = lists.join("")
+    cb(blindList)
     })
 }
-load_list()
 
+//route
+window.addEventListener('hashchange', router)
+
+function router(){
+    let routePath = location.hash;
+            if (routePath == ''){
+                load_list()
+                console.log("로드리스트")
+            } else{
+                load_structure()
+            }
+}
+router()
+
+function load_list(){
+    let lists = []  
+    getData(function(blindList){
+        console.log(blindList)
+        for(let i = 0 ; i < blindList.length ; i++){
+            console.log(blindList[i].structure.title)
+            lists.push(` <li><a class="dropdown-item text-center" href="#${blindList[i].id}">${blindList[i].structure.title}</a></li>
+            `)
+        }
+        lists.push('<li><a class="dropdown-item text-center" href="#" style="border-top:1px solid black"><b>Setting</b></a></li>')
+        document.getElementById("setList").innerHTML = lists.join("")
+    })
+}
+
+let level = 1
+let blind = ""
+let ante = ""
 function load_structure(){
+    let theId = location.hash.substring(1)
     
+    getData(function(blindList){
+        let sb_key = 'sb'+ level
+        let bb_key = 'bb'+ level
+        let at_key = 'at'+ level
+                
+        theStructure = blindList.find(doc => doc.id == theId)
+        break_level = theStructure.structure.break_num
+        
+        let sb = theStructure.structure[sb_key]
+        let bb = theStructure.structure[bb_key]
+        let at = theStructure.structure[at_key]
+        blind = sb + " / " + bb
+        ante = at
+        next = n_sb + " / " + n_bb + "(" + n_at + ")"
+        console.log(blind)
+
+        document.getElementById("nav_title").innerHTML = theStructure.structure.title
+        document.getElementById("blind").innerHTML = blind
+        document.getElementById("ante").innerHTML = ante
+    })
 }
 
 //setting area
@@ -91,7 +125,7 @@ function set_button(){
 
 
 //status area
-let level = 1
+
 let entries = 0
 let players = 0
 let rebuys = 0
