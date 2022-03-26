@@ -67,6 +67,10 @@ function load_structure(){
         let sb_key = 'sb'+ level
         let bb_key = 'bb'+ level
         let at_key = 'at'+ level
+        let n_sb_key = 'sb'+ Number(level + 1)
+        let n_bb_key = 'bb'+ Number(level + 1)
+        let n_at_key = 'at'+ Number(level + 1)
+        console.log(n_sb_key)
                 
         theStructure = blindList.find(doc => doc.id == theId)
         break_level = theStructure.structure.break_num
@@ -74,14 +78,20 @@ function load_structure(){
         let sb = theStructure.structure[sb_key]
         let bb = theStructure.structure[bb_key]
         let at = theStructure.structure[at_key]
+        let n_sb = theStructure.structure[n_sb_key]
+        let n_bb = theStructure.structure[n_bb_key]
+        let n_at = theStructure.structure[n_at_key]
         blind = sb + " / " + bb
         ante = at
         next = n_sb + " / " + n_bb + "(" + n_at + ")"
         console.log(blind)
+        console.log(ante)
+        console.log(next)
 
         document.getElementById("nav_title").innerHTML = theStructure.structure.title
         document.getElementById("blind").innerHTML = blind
         document.getElementById("ante").innerHTML = ante
+        document.getElementById("next").innerHTML = next
     })
 }
 
