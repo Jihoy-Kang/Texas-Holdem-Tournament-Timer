@@ -36,7 +36,6 @@ function router(){
     let routePath = location.hash;
             if (routePath == ''){
                 load_list()
-                console.log("로드리스트")
             } else{
                 load_structure()
             }
@@ -46,7 +45,6 @@ router()
 function load_list(){
     let lists = []  
     getData(function(blindList){
-        console.log(blindList)
         for(let i = 0 ; i < blindList.length ; i++){
             console.log(blindList[i].structure.title)
             lists.push(` <li><a class="dropdown-item text-center" href="#${blindList[i].id}">${blindList[i].structure.title}</a></li>
@@ -62,7 +60,7 @@ let blind = ""
 let ante = ""
 function load_structure(){
     let theId = location.hash.substring(1)
-    
+    load_list()
     getData(function(blindList){
         let sb_key = 'sb'+ level
         let bb_key = 'bb'+ level
@@ -70,10 +68,8 @@ function load_structure(){
         let n_sb_key = 'sb'+ Number(level + 1)
         let n_bb_key = 'bb'+ Number(level + 1)
         let n_at_key = 'at'+ Number(level + 1)
-        console.log(n_sb_key)
                 
         theStructure = blindList.find(doc => doc.id == theId)
-        break_level = theStructure.structure.break_num
         
         let sb = theStructure.structure[sb_key]
         let bb = theStructure.structure[bb_key]
@@ -81,17 +77,91 @@ function load_structure(){
         let n_sb = theStructure.structure[n_sb_key]
         let n_bb = theStructure.structure[n_bb_key]
         let n_at = theStructure.structure[n_at_key]
-        blind = sb + " / " + bb
-        ante = at
-        next = n_sb + " / " + n_bb + "(" + n_at + ")"
-        console.log(blind)
-        console.log(ante)
-        console.log(next)
+        blind = Number(sb).toLocaleString() + " / " + Number(bb).toLocaleString()
+        ante = Number(at).toLocaleString()
+        next = Number(n_sb).toLocaleString() + " / " + Number(n_bb).toLocaleString() + "(" + Number(n_at).toLocaleString() + ")"
 
         document.getElementById("nav_title").innerHTML = theStructure.structure.title
         document.getElementById("blind").innerHTML = blind
         document.getElementById("ante").innerHTML = ante
         document.getElementById("next").innerHTML = next
+    })
+
+}
+
+//Timer
+
+const next_break = ""
+let btn = false
+let hour = "";
+let min = "";
+let sec = "";
+
+function play(){
+    btn = true
+    console.log(btn)
+    timer()
+}
+
+function stop(){
+    btn = false
+    console.log(btn)
+}
+
+
+
+function timer(){
+    let theId = location.hash.substring(1)
+    getData(function(blindList){
+        theStructure = blindList.find(doc => doc.id == theId)
+
+        let blind_time_key = 'time' + level
+        let break_time_key = 'b_time' + level
+
+        let time = theStructure.structure[blind_time_key] /* * 60 */
+        let break_time = theStructure.structure[break_time_key] /* * 60 */
+        let break_num = theStructure.structure.break_num
+        let level_num = theStructure.structure.level_num
+        let nb_time = time * (break_num-level+1) 
+        console.log(break_num)
+        console.log(level_num)
+        console.log(nb_time)
+        
+        let start = setInterval(function(){
+            if(btn == true){
+                hour = parseInt(time/3600);
+                min = parseInt(time/60) % 60 < 10 ? '0' + parseInt(time/60) % 60 : parseInt(time/60) % 60;
+                sec = parseInt(time%60) < 10 ? '0' + parseInt(time%60) : parseInt(time%60);
+                time --;
+
+                nb_hour = parseInt(nb_time/3600);
+                nb_min = parseInt(nb_time/60) % 60 < 10 ? '0' + parseInt(nb_time/60) % 60 : parseInt(nb_time/60) % 60;
+                nb_sec = parseInt(nb_time%60) < 10 ? '0' + parseInt(nb_time%60) : parseInt(nb_time%60);
+                nb_time --;
+                
+
+                document.getElementById("main_timer").innerHTML = min + ':' + sec ;
+                document.getElementById("nb_time").innerHTML = nb_hour+ ':' + nb_min + ':' + nb_sec ;
+    
+                document.getElementById("play").style.display = "none"
+                document.getElementById("stop").style.display = "block"
+    
+            } else{
+                clearInterval(start)
+                document.getElementById("play").style.display = "block"
+                document.getElementById("stop").style.display = "none"
+            }
+
+            if(time <= 0){
+                level++
+                time = theStructure.structure[blind_time_key] /* * 60 */
+                load_structure()
+                
+            }
+
+        },1000)
+        
+        
     })
 }
 
@@ -223,11 +293,15 @@ function addons_minus(){
 function level_plus(){
     level = level +1
     console.log("레벨" + level)
+    document.getElementById("level").innerHTML = 'Level' +" "+ level
+    load_structure()
 }
 
 function level_minus(){
     level = level -1 <= 1 ? 1 : level -1
     console.log("레벨" + level)
+    document.getElementById("level").innerHTML = 'Level' +" "+ level
+    load_structure()
 }
 
 function chip_in(){
@@ -258,7 +332,6 @@ function cash_out(){
 }
 
 function cash_update(){
-    console.log("총 바이인 : " + total_cash)
     totalPrize = ((buy_in_cash * entries) + (Re_buy_in_cash*rebuys) + (add_on_cash*addons) + extra_cash)*(total_prize_pct/100)
     document.getElementById("total_prize").innerHTML = totalPrize.toLocaleString()
 
