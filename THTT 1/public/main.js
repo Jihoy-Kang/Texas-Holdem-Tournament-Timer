@@ -12,6 +12,15 @@ const db = firebase.firestore()
 
 document.getElementById("stop").style.display = "none"
 
+let time = 0
+let btn = false
+let hour = "";
+let min = "";
+let sec = "";
+let g_status = true
+
+
+
 //Blind Structure
 let theStructure = []
 let blindList = []
@@ -38,7 +47,7 @@ function router(){
             if (routePath == ' '){
                 load_list()
             } else{
-                load_structure()
+                load_structure()    
             }
 }
 router()
@@ -83,40 +92,54 @@ function load_structure(){
         next = Number(n_sb).toLocaleString() + " / " + Number(n_bb).toLocaleString() + "(" + Number(n_at).toLocaleString() + ")"
 
         document.getElementById("nav_title").innerHTML = theStructure.structure.title
+        document.getElementById("level").innerHTML = 'Level' +" "+ level
         document.getElementById("blind").innerHTML = blind
         document.getElementById("ante").innerHTML = ante
         document.getElementById("next").innerHTML = next
 
         let blind_time_key = 'time' + level
-        let break_time_key = 'b_time' + level
 
-        let time = theStructure.structure[blind_time_key] * 60
-        let break_time = theStructure.structure[break_time_key]* 60
-        let break_num = theStructure.structure.break_num
-        let level_num = theStructure.structure.level_num
-        let nb_time = time * (break_num-level+1 > 0 ? break_num-level+1 : level%break_num == 0 ? 1 : (break_num-(level%break_num)) + 1 ) + (break_num-1)
+        let time = theStructure.structure[blind_time_key] /* * 60 */
 
         hour = parseInt(time/3600);
         min = parseInt(time/60) % 60 < 10 ? '0' + parseInt(time/60) % 60 : parseInt(time/60) % 60;
         sec = parseInt(time%60) < 10 ? '0' + parseInt(time%60) : parseInt(time%60);
-
-        nb_hour = parseInt(nb_time/3600);
-        nb_min = parseInt(nb_time/60) % 60 < 10 ? '0' + parseInt(nb_time/60) % 60 : parseInt(nb_time/60) % 60;
-        nb_sec = parseInt(nb_time%60) < 10 ? '0' + parseInt(nb_time%60) : parseInt(nb_time%60);
         
 
-        document.getElementById("main_timer").innerHTML = min + ':' + sec ;
-        document.getElementById("nb_time").innerHTML = nb_hour+ ':' + nb_min + ':' + nb_sec ;
+        document.getElementById("main_timer").innerHTML = min + ':' + sec
     })
 }
 
+function change_structure(){
+    let theId = location.hash.substring(1)
+    getData(function(blindList){
+        let sb_key = 'sb'+ level
+        let bb_key = 'bb'+ level
+        let at_key = 'at'+ level
+        let n_sb_key = 'sb'+ Number(level + 1)
+        let n_bb_key = 'bb'+ Number(level + 1)
+        let n_at_key = 'at'+ Number(level + 1)
+                
+        theStructure = blindList.find(doc => doc.id == theId)
+        
+        let sb = theStructure.structure[sb_key]
+        let bb = theStructure.structure[bb_key]
+        let at = theStructure.structure[at_key]
+        let n_sb = theStructure.structure[n_sb_key]
+        let n_bb = theStructure.structure[n_bb_key]
+        let n_at = theStructure.structure[n_at_key]
+        blind = Number(sb).toLocaleString() + " / " + Number(bb).toLocaleString()
+        ante = Number(at).toLocaleString()
+        next = Number(n_sb).toLocaleString() + " / " + Number(n_bb).toLocaleString() + "(" + Number(n_at).toLocaleString() + ")"
+
+        document.getElementById("level").innerHTML = 'Level' +" "+ level
+        document.getElementById("blind").innerHTML = blind
+        document.getElementById("ante").innerHTML = ante
+        document.getElementById("next").innerHTML = next
+    })
+}
 //Timer
 
-const next_break = ""
-let btn = false
-let hour = "";
-let min = "";
-let sec = "";
 
 function play(){
     btn = true
@@ -129,25 +152,48 @@ function stop(){
     console.log(btn)
 }
 
-
-
-function timer(){
+function reset(){
     let theId = location.hash.substring(1)
+    hour = parseInt(time/3600);
+    min = parseInt(time/60) % 60 < 10 ? '0' + parseInt(time/60) % 60 : parseInt(time/60) % 60;
+    sec = parseInt(time%60) < 10 ? '0' + parseInt(time%60) : parseInt(time%60);
     getData(function(blindList){
         theStructure = blindList.find(doc => doc.id == theId)
 
         let blind_time_key = 'time' + level
         let break_time_key = 'b_time' + level
-
+        let break_time = theStructure.structure[break_time_key]  * 60 
         let blind_time = theStructure.structure[blind_time_key]  * 60 
-        let break_time = theStructure.structure[break_time_key] * 60 
-        let time = blind_time
-        let break_num = theStructure.structure.break_num
-        let level_num = theStructure.structure.level_num
-        let nb_time = time * (break_num-level+1 > 0 ? break_num-level+1 : level%break_num == 0 ? 1 : (break_num-(level%break_num)) + 1 )  + (break_num-1)
-        console.log(break_num)
-        console.log(level_num)
-        console.log(nb_time)
+        
+
+    if(g_status == true){
+        time = blind_time
+        console.log("블라인드" + time)
+        
+    }else{
+        console.log("브레이크" + time)
+        time = break_time
+    }
+    setTimeout(() => {
+        document.getElementById("main_timer").innerHTML = min + ':' + sec ;
+    },500);
+    })
+}
+
+
+function timer(){
+    g_status = true
+    let theId = location.hash.substring(1)
+    getData(function(blindList){
+        theStructure = blindList.find(doc => doc.id == theId)
+
+        let blind_time_key = 'time' + level
+        let blind_time = theStructure.structure[blind_time_key]  /* * 60 */ 
+        time = blind_time
+        let break_level = theStructure.structure.break_num
+        console.log(theStructure)
+        console.log(break_level)
+    
         
         let start = setInterval(function(){
             if(btn == true){
@@ -156,15 +202,7 @@ function timer(){
                 sec = parseInt(time%60) < 10 ? '0' + parseInt(time%60) : parseInt(time%60);
                 time --;
 
-                nb_hour = parseInt(nb_time/3600);
-                nb_min = parseInt(nb_time/60) % 60 < 10 ? '0' + parseInt(nb_time/60) % 60 : parseInt(nb_time/60) % 60;
-                nb_sec = parseInt(nb_time%60) < 10 ? '0' + parseInt(nb_time%60) : parseInt(nb_time%60);
-                nb_time --;
-                
-
                 document.getElementById("main_timer").innerHTML = min + ':' + sec ;
-                document.getElementById("nb_time").innerHTML = nb_hour+ ':' + nb_min + ':' + nb_sec ;
-    
                 document.getElementById("play").style.display = "none"
                 document.getElementById("stop").style.display = "block"
     
@@ -173,20 +211,70 @@ function timer(){
                 document.getElementById("play").style.display = "block"
                 document.getElementById("stop").style.display = "none"
             }
+            
 
-            if(time < 0){
+            if(time < 0 && level % break_level != 0 ){
                 level ++
-                
-                load_structure()
-                time = theStructure.structure[blind_time_key]
+                time = blind_time
                 
             }
+
+            if(time < 0 && level % break_level == 0 ){
+                clearInterval(start)
+                b_timer()
+            }
+
+            if(time == blind_time-1){
+                change_structure()
+            }
+
 
         },1000)
         
         
     })
 }
+
+function b_timer(){
+    g_status = false
+    let theId = location.hash.substring(1)
+    getData(function(blindList){
+        theStructure = blindList.find(doc => doc.id == theId)
+
+        let break_time_key = 'b_time' + level
+        let break_time = theStructure.structure[break_time_key]  /* * 60 */ 
+        time = break_time
+        console.log(time)
+        
+        let b_start = setInterval(function(){
+            if(btn == true){
+                hour = parseInt(time/3600);
+                min = parseInt(time/60) % 60 < 10 ? '0' + parseInt(time/60) % 60 : parseInt(time/60) % 60;
+                sec = parseInt(time%60) < 10 ? '0' + parseInt(time%60) : parseInt(time%60);
+                time --;
+
+                document.getElementById("main_timer").innerHTML = min + ':' + sec ;
+                document.getElementById("play").style.display = "none"
+                document.getElementById("stop").style.display = "block"
+    
+            } else{
+                clearInterval(b_start)
+                document.getElementById("play").style.display = "block"
+                document.getElementById("stop").style.display = "none"
+            }
+            
+
+            if(time < 0){
+                level++
+                clearInterval(b_start)
+                timer()
+                
+            }
+        },1000)
+    })
+    document.getElementById("level").innerHTML = 'Break'
+}
+
 
 //setting area
 let buy_in_chip = 0
@@ -317,14 +405,14 @@ function level_plus(){
     level = level +1
     console.log("레벨" + level)
     document.getElementById("level").innerHTML = 'Level' +" "+ level
-    load_structure()
+    change_structure()
 }
 
 function level_minus(){
     level = level -1 <= 1 ? 1 : level -1
     console.log("레벨" + level)
     document.getElementById("level").innerHTML = 'Level' +" "+ level
-    load_structure()
+    change_structure()
 }
 
 function chip_in(){
