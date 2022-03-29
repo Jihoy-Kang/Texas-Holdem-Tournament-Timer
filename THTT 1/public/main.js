@@ -478,12 +478,12 @@ function cash_update(){
     document.getElementById("top_first_prize").innerHTML = first_prize.toLocaleString()
     document.getElementById("top_second_prize").innerHTML = second_prize.toLocaleString()
     document.getElementById("top_third_prize").innerHTML = third_prize.toLocaleString()
-    document.getElementById("top_fourth_prize").innerHTML = third_prize.toLocaleString()
-    document.getElementById("top_fifth_prize").innerHTML = third_prize.toLocaleString()
-    document.getElementById("top_sixth_prize").innerHTML = third_prize.toLocaleString()
-    document.getElementById("top_seventh_prize").innerHTML = third_prize.toLocaleString()
-    document.getElementById("top_eighth_prize").innerHTML = third_prize.toLocaleString()
-    document.getElementById("top_ninth_prize").innerHTML = third_prize.toLocaleString()
+    document.getElementById("top_fourth_prize").innerHTML = fourth_prize.toLocaleString()
+    document.getElementById("top_fifth_prize").innerHTML = fifth_prize.toLocaleString()
+    document.getElementById("top_sixth_prize").innerHTML = sixth_prize.toLocaleString()
+    document.getElementById("top_seventh_prize").innerHTML = seventh_prize.toLocaleString()
+    document.getElementById("top_eighth_prize").innerHTML = eighth_prize.toLocaleString()
+    document.getElementById("top_ninth_prize").innerHTML = ninth_prize.toLocaleString()
 
 }
 
