@@ -80,7 +80,7 @@ function load_list(){
             lists.push(` <li><a class="dropdown-item text-center" href="#${blindList[i].id}">${blindList[i].structure.title}</a></li>
             `)
         }
-        lists.push('<li><a class="dropdown-item text-center" href="./blind_structure.html" style="border-top:1px solid black"><b>Setting</b></a></li>')
+        lists.push('<li><a class="dropdown-item text-center" href="./blind Structure/blind_structure.html" style="border-top:1px solid black"><b>Setting</b></a></li>')
         document.getElementById("setList").innerHTML = lists.join("")
     })
 }
@@ -135,6 +135,8 @@ function load_structure(){
     })
 }
 
+
+
 function change_structure(){
     let theId = location.hash.substring(1)
     getData(function(blindList){
@@ -161,6 +163,8 @@ function change_structure(){
         document.getElementById("blind").innerHTML = blind
         document.getElementById("ante").innerHTML = ante
         document.getElementById("next").innerHTML = next
+
+        
     })
 }
 
@@ -169,7 +173,6 @@ function timer(){
     g_status = true
     let start = setInterval(function(){
         if(btn == true){
-            hour = parseInt(time/3600);
             min = parseInt(time/60) % 60 < 10 ? '0' + parseInt(time/60) % 60 : parseInt(time/60) % 60;
             sec = parseInt(time%60) < 10 ? '0' + parseInt(time%60) : parseInt(time%60);
             time --;
@@ -220,7 +223,6 @@ function b_timer(){
     
     let b_start = setInterval(function(){
         if(btn == true){
-            hour = parseInt(time/3600);
             min = parseInt(time/60) % 60 < 10 ? '0' + parseInt(time/60) % 60 : parseInt(time/60) % 60;
             sec = parseInt(time%60) < 10 ? '0' + parseInt(time%60) : parseInt(time%60);
             time --;
@@ -417,19 +419,70 @@ function addons_minus(){
     chip_update()
 }
 
+
+let num = level
 function level_plus(){
-    level = level +1
-    console.log("레벨" + level)
-    document.getElementById("level").innerHTML = 'Level' +" "+ level
-    change_structure()
+    num = num + 1
+    
+    if(num != 1 && num%break_level == 1){
+        console.log("휴식")
+        console.log("num" + num)
+        
+        break_time_key = 'b_time' + level
+        time = theStructure.structure[break_time_key] * 60
+    }else{
+        level = level +1
+        num = level
+        console.log("플레이")
+        console.log("num" + num)
+        console.log("레벨" + level)
+
+        
+        blind_time_key = 'time' + level
+        time = theStructure.structure[blind_time_key] * 60
+        document.getElementById("level").innerHTML = 'Level' +" "+ level
+        change_structure()
+    }
+    
+    min = parseInt(time/60) % 60 < 10 ? '0' + parseInt(time/60) % 60 : parseInt(time/60) % 60;
+    sec = parseInt(time%60) < 10 ? '0' + parseInt(time%60) : parseInt(time%60);
+
+    document.getElementById("main_timer").innerHTML = min + ':' + sec ;
+
 }
 
 function level_minus(){
-    level = level -1 <= 1 ? 1 : level -1
-    console.log("레벨" + level)
-    document.getElementById("level").innerHTML = 'Level' +" "+ level
-    change_structure()
+    num = num - 1 <= 1 ? 1 : num -1
+
+    if(num%break_level == 0){
+        level = level -1 <= 1 ? 1 : level -1
+        console.log("휴식")
+        console.log("num" + num)
+        console.log("레벨" + level)
+
+        break_time_key = 'b_time' + level
+        time = theStructure.structure[break_time_key] * 60
+        document.getElementById("level").innerHTML = 'Break'
+    }else{
+        level = level -1 <= 1 ? 1 : level -1
+        console.log("플레이")
+        console.log("num" + num)
+        console.log("레벨" + level)
+
+        
+        blind_time_key = 'time' + level
+        time = theStructure.structure[blind_time_key] * 60
+        document.getElementById("level").innerHTML = 'Level' +" "+ level
+        change_structure()
+    }
+    
+    min = parseInt(time/60) % 60 < 10 ? '0' + parseInt(time/60) % 60 : parseInt(time/60) % 60;
+    sec = parseInt(time%60) < 10 ? '0' + parseInt(time%60) : parseInt(time%60);
+
+    document.getElementById("main_timer").innerHTML = min + ':' + sec ;
 }
+
+
 
 function chip_in(){
     extra_chip = extra_chip + Number(document.getElementById("extra_chip").value)
