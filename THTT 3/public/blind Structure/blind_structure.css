@@ -1,0 +1,25 @@
+table {
+  text-align: center;
+}
+
+.structure_list {
+  width: 40%;
+}
+
+.structure {
+  width: 60%;
+}
+
+.structure td input {
+  width: 7rem;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  font-size: larger;
+  font-weight: bold;
+}

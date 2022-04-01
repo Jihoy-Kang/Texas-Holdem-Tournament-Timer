@@ -1,0 +1,185 @@
+.timer_section {
+  color: white;
+  width: 99vmax;
+  height: 80vmin;
+  background-color: #1c222e;
+  font-size: 2rem;
+}
+
+.timer_nav {
+  width: 100%;
+  height: 15%;
+  text-align: center;
+  font-weight: bolder;
+  font-size: 3rem;
+}
+
+.timer_nav_title {
+  width: 100%;
+}
+
+.timer_body {
+  width: 100%;
+  height: 85%;
+  text-align: center;
+
+}
+
+.timer_body_l {
+  width: 23%;
+  height: 100%;
+  border-right: 5px solid white;
+}
+
+.timer_body_lt {
+
+  width: 100%;
+  height: 80%;
+}
+
+.timer_body_lb {
+  width: 100%;
+  height: 20%;
+}
+
+.timer_body_c {
+  width: 54%;
+  height: 100%;
+}
+
+#level{
+  width: 30%;
+  background-color: rgba(30, 77, 247, 0.3);
+  
+}
+
+.timer_body_ct {
+  width: 100%;
+  height: 15%;
+  font-weight: bolder;
+  font-size: 3rem;
+}
+.timer_body_cc1 {
+
+  width: 100%;
+  height: 50%;
+  font-weight: bolder;
+  font-size: 16rem;
+  letter-spacing: 1rem;
+}
+.timer_body_cc2 {
+  
+  width: 100%;
+  font-size: 3rem;
+  height: 35%;
+}
+
+.timer_body_r {
+  width: 23%;
+  height: 100%;
+  border-left: 5px solid white;
+}
+
+.timer_body_rt {
+
+  width: 100%;
+  height: 33.333%;
+  letter-spacing: ;
+  font-weight: bolder;
+}
+
+.timer_body_rt div {
+  margin-bottom: 1rem;
+}
+
+.timer_body_rc {
+
+  width: 100%;
+  height: 33.333%;
+}
+
+.timer_body_rc div {
+  margin-bottom: 1rem;
+}
+
+.timer_body_rb {
+  width: 100%;
+  height: 33.334%;
+}
+
+.timer_body_rb div {
+  margin-bottom: 1rem;
+}
+
+.timer_head {
+  color: #f2c86b;
+  font-weight: bolder;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* Control section */
+.control_section {
+  width: 99vmax;
+  height: 45vmin;
+  background-color: #1c222e;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.control_button div {
+  margin: 0.5rem;
+}
+
+input {
+  font-size: 1rem;
+  width: 8rem;
+  text-align: center;
+}
+
+.control_input {
+  display: flex;
+  align-items: center;
+}
+.control_table {
+  border-top: 3px solid white;
+  border-bottom: 3px solid white;
+}
+
+.control_bottom {
+  border-bottom: 1px solid white;
+}
+
+.btn-lg {
+  width: 8rem;
+  height: 2.5rem;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.btn-sm {
+  width: 2rem;
+  height: 2rem;
+}
+
+.status_area {
+  width: 24%;
+}
+
+.prize_area {
+  width: 24%;
+}
+.statistics_area {
+  width: 24%;
+}
+
+.setting_area {
+  width: 24%;
+}
+
+/* Setting section */
+.setting_section {
+  width: 99vmax;
+  height: 85vmin;
+  background-color: rgb(233, 233, 214);
+}
