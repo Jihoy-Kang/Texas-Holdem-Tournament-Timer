@@ -21,10 +21,10 @@ let blindList = []
 let theStructure = []
 let beep = new Audio('beep.wav') 
 
+
 //시간
 let btn = false
 let blind_break_status = true
-let break_starter = false
 let time = 0
 let blind_time = 0
 let break_time = 0
@@ -36,7 +36,7 @@ let sec = "";
 
 //블라인드
 let level = 1
-let level_btn_click = level
+let num = level
 let blind = ""
 let ante = ""
 let break_level = 0
@@ -161,7 +161,7 @@ function change_structure(){
         ante = Number(at).toLocaleString()
         next = Number(n_sb).toLocaleString() + " / " + Number(n_bb).toLocaleString() + "(" + Number(n_at).toLocaleString() + ")"
 
-        
+        document.getElementById("level").innerHTML = 'Level' +" "+ level
         document.getElementById("blind").innerHTML = blind
         document.getElementById("ante").innerHTML = ante
         document.getElementById("next").innerHTML = next
@@ -170,11 +170,11 @@ function change_structure(){
     })
 }
 
-
+let break_starter = false
 function timer(){
     blind_break_status = true
     let start = setInterval(function(){
-        level_btn_click = level
+        num = level
         if(btn == true){
             min = parseInt(time/60) % 60 < 10 ? '0' + parseInt(time/60) % 60 : parseInt(time/60) % 60;
             sec = parseInt(time%60) < 10 ? '0' + parseInt(time%60) : parseInt(time%60);
@@ -186,7 +186,6 @@ function timer(){
 
             if(time == blind_time-1){
                 change_structure()
-                document.getElementById("level").innerHTML = 'Level' +" "+ level
             }
 
             if(time < 5){
@@ -201,8 +200,8 @@ function timer(){
                 blind_time_key = 'time' + level
                 blind_time = theStructure.structure[blind_time_key] * 60
                 time = theStructure.structure[blind_time_key] * 60
-            } 
-
+            }
+    
             if(time < 0 && level % break_level == 0 ){
                 break_starter = true
                 console.log("브레이크 on")
@@ -213,8 +212,9 @@ function timer(){
                 break_time_key = 'b_time' + level
                 break_time = theStructure.structure[break_time_key] * 60
                 time = theStructure.structure[break_time_key] * 60
-                b_timer()                
+                b_timer()
             }
+    
             
 
         } else{
@@ -224,11 +224,11 @@ function timer(){
         }
 
     },1000)
-    console.log("블라인드타이머")
 }
 
 function b_timer(){
     blind_break_status = false
+    
     let b_start = setInterval(function(){
         if(btn == true){
             min = parseInt(time/60) % 60 < 10 ? '0' + parseInt(time/60) % 60 : parseInt(time/60) % 60;
@@ -239,37 +239,38 @@ function b_timer(){
             document.getElementById("play").style.display = "none"
             document.getElementById("stop").style.display = "block"
 
-            if(time < 5){
-                document.getElementById("main_timer").style.color = "red"
-                beep.play()
-            }else{
-                document.getElementById("main_timer").style.color = "white"
-            }
             if(time == break_time-1){
                 document.getElementById("level").innerHTML = 'Break'
             }
+
+            if(time < 5){
+                document.getElementById("main_timer").style.color = "red"
+            }else{
+                document.getElementById("main_timer").style.color = "white"
+            }
+            
             if(time < 0){
                 break_starter = false
-                level++
-                
+                console.log("브레이크 off")
             }
 
             if(break_starter == false){
                 clearInterval(b_start)
+                level++
                 blind_time_key = 'time' + level
                 blind_time = theStructure.structure[blind_time_key] * 60
                 time = theStructure.structure[blind_time_key] * 60
                 timer()
             }
+            
 
         } else{
-            clearInterval(b_start)
+            clearInterval(start)
             document.getElementById("play").style.display = "block"
             document.getElementById("stop").style.display = "none"
         }
         
     },1000)
-    console.log("브레이크타이머")
 }
 
 function play(){
@@ -319,283 +320,78 @@ let eighth_prize_pct = 0
 let ninth_prize_pct = 0
 let totalCash = 0
 
-function set_button(){
-    buy_in_chip = Number(document.getElementById("buy_in_chip").value)
-    Re_buy_in_chip = Number(document.getElementById("Re_buy_in_chip").value)
-    add_on_chip = Number(document.getElementById("add_on_chip").value)
-    buy_in_cash = Number(document.getElementById("buy_in_cash").value)
-    Re_buy_in_cash = Number(document.getElementById("Re_buy_in_cash").value)
-    add_on_cash = Number(document.getElementById("add_on_cash").value)
-    first_prize_pct = Number(document.getElementById("first_prize").value)
-    second_prize_pct = Number(document.getElementById("second_prize").value)
-    third_prize_pct = Number(document.getElementById("third_prize").value)
-    fourth_prize_pct = Number(document.getElementById("fourth_prize").value)
-    fifth_prize_pct = Number(document.getElementById("fifth_prize").value)
-    sixth_prize_pct = Number(document.getElementById("sixth_prize").value)
-    seventh_prize_pct = Number(document.getElementById("seventh_prize").value)
-    eighth_prize_pct = Number(document.getElementById("eighth_prize").value)
-    ninth_prize_pct = Number(document.getElementById("ninth_prize").value)
-    total_prize_pct = first_prize_pct+second_prize_pct+third_prize_pct+fourth_prize_pct+fifth_prize_pct+sixth_prize_pct+seventh_prize_pct+eighth_prize_pct+ninth_prize_pct
-
-
-    document.getElementById("show_buy_in_chip").innerHTML = buy_in_chip.toLocaleString() 
-    document.getElementById("show_Re_buy_in_chip").innerHTML = Re_buy_in_chip.toLocaleString() 
-    document.getElementById("show_add_on_chip").innerHTML = add_on_chip.toLocaleString() 
-/*     document.getElementById("show_first_prize").innerHTML = first_prize_pct +'%'
-    document.getElementById("show_second_prize").innerHTML = second_prize_pct +'%'
-    document.getElementById("show_third_prize").innerHTML = third_prize_pct +'%' */
-
-    cash_update()
-}
-
-
-//status area
-
-let entries = 0
-let players = 0
-let rebuys = 0
-let addons = 0
-let total_chips = 0
-let avg_chips = 0
-let total_cash= 0
-let extra_chip = 0
-let extra_cash = 0
-
-function entries_plus(){
-    entries = entries +1
-    players = players +1 
-    console.log("엔트리" + entries)
-
-    document.getElementById("player_num").innerHTML = players + "/" + entries 
-    document.getElementById("player_num_bottom").innerHTML = players + "/" + entries
-    cash_update()
-    chip_update()
-}
-
-
-function entries_minus(){
-    entries = entries -1  <= 0 ? 0 : entries -1
-    players = players -1 <= 0 ? 0 : players -1
-    console.log("엔트리" + entries)
-    document.getElementById("player_num").innerHTML = players + "/" + entries 
-    document.getElementById("player_num_bottom").innerHTML = players + "/" + entries
-    cash_update()
-    chip_update()
-}
-function players_plus(){
-    players = players +1 >= entries ? entries : players +1
-
-    console.log("플레이어" + players)
-    document.getElementById("player_num").innerHTML = players + "/" + entries 
-    document.getElementById("player_num_bottom").innerHTML = players + "/" + entries
-    cash_update()
-    chip_update()
-}
-function players_minus(){
-    players = players -1 <= 0 ? 0 : players -1
-
-    console.log("플레이어" + players)
-    document.getElementById("player_num").innerHTML = players + "/" + entries 
-    document.getElementById("player_num_bottom").innerHTML = players + "/" + entries
-    cash_update()
-    chip_update()
-}
-
-function rebuys_plus(){
-    rebuys = rebuys +1
-    console.log("리바이인" + rebuys)
-    document.getElementById("re_buy").innerHTML = rebuys
-    cash_update()
-    chip_update()
-}
-
-function rebuys_minus(){
-    rebuys = rebuys -1 <= 0 ? 0 : rebuys -1
-    console.log("리바이인" + rebuys)
-
-    document.getElementById("re_buy").innerHTML = rebuys
-    cash_update()
-    chip_update()
-}
-
-function addons_plus(){
-    addons = addons +1
-    console.log("에드온" + addons)
-    document.getElementById("add_on").innerHTML = addons
-    cash_update()
-    chip_update()
-}
-
-function addons_minus(){
-    addons = addons -1 <= 0 ? 0 : addons -1
-    console.log("에드온" + addons)
-
-    document.getElementById("add_on").innerHTML = addons
-    cash_update()
-    chip_update()
-}
-
 
 
 function level_plus(){
-    level_btn_click = level_btn_click + 1
+    num = num + 1
+    
+    if(num != 1 && num%break_level == 1){
+        console.log("휴식")
+        console.log("num" + num)
+        document.getElementById("level").innerHTML = 'Break'
+        break_starter = true
+        console.log("브레이크 on")
 
-    if(break_starter == true && level_btn_click%break_level == 1){
-        break_starter = false
+        break_time_key = 'b_time' + level
+        time = theStructure.structure[break_time_key] * 60
+    }else{
         level = level +1
+        num = level
+        break_starter = false
+        console.log("브레이크 off")
 
+        console.log("플레이")
+        console.log("num" + num)
+        console.log("레벨" + level)
+
+        
         blind_time_key = 'time' + level
-        console.log("키"+blind_time_key)
         time = theStructure.structure[blind_time_key] * 60
-        console.log("시간"+time)
         document.getElementById("level").innerHTML = 'Level' +" "+ level
         change_structure()
+    }
+    
+    min = parseInt(time/60) % 60 < 10 ? '0' + parseInt(time/60) % 60 : parseInt(time/60) % 60;
+    sec = parseInt(time%60) < 10 ? '0' + parseInt(time%60) : parseInt(time%60);
 
-    }else if(break_starter == false && level_btn_click != 1 && level_btn_click%break_level == 1){
+    document.getElementById("main_timer").innerHTML = min + ':' + sec ;
+
+}
+
+function level_minus(){
+    num = num - 1 <= 1 ? 1 : num -1
+
+    if(num%break_level == 0){
+        level = level -1 <= 1 ? 1 : level -1
         break_starter = true
+        console.log("브레이크 on")
+
+
+        console.log("휴식")
+        console.log("num" + num)
+        console.log("레벨" + level)
+
         break_time_key = 'b_time' + level
         time = theStructure.structure[break_time_key] * 60
         document.getElementById("level").innerHTML = 'Break'
     }else{
-        level = level +1
-        level_btn_click = level
+        level = level -1 <= 1 ? 1 : level -1
         break_starter = false
+        console.log("브레이크 off")
+
+        console.log("플레이")
+        console.log("num" + num)
+        console.log("레벨" + level)
+
+        
         blind_time_key = 'time' + level
         time = theStructure.structure[blind_time_key] * 60
         document.getElementById("level").innerHTML = 'Level' +" "+ level
         change_structure()
     }
-
-    min = parseInt(time/60) % 60 < 10 ? '0' + parseInt(time/60) % 60 : parseInt(time/60) % 60;
-    sec = parseInt(time%60) < 10 ? '0' + parseInt(time%60) : parseInt(time%60);
-
-    document.getElementById("main_timer").innerHTML = min + ':' + sec ;
-    console.log("레벨",level)
-    console.log("num",level_btn_click)
-    console.log(break_starter)
-}
-
-function level_minus(){
-    /* level = level_btn_click */
-    level_btn_click = level_btn_click - 1 <= 1 ? 1 : level_btn_click -1
     
-    if(break_starter == true && level_btn_click%break_level == 0){
-        break_starter = false
-        blind_time_key = 'time' + level
-        time = theStructure.structure[blind_time_key] * 60
-
-        change_structure()
-        document.getElementById("level").innerHTML = 'Level' +" "+ level
-
-    }else if(break_starter == false && level_btn_click%break_level == 0){
-        level = level -1 <= 1 ? 1 : level -1
-        break_starter = true
-        
-
-        break_time_key = 'b_time' + level_btn_click
-        time = theStructure.structure[break_time_key] * 60
-
-        
-        document.getElementById("level").innerHTML = 'Break'
-        change_structure()
-
-    }else if(break_starter == true){
-        level_btn_click = level
-        break_starter = false
-
-        blind_time_key = 'time' + level
-        time = theStructure.structure[blind_time_key] * 60
-
-        change_structure()
-        document.getElementById("level").innerHTML = 'Level' +" "+ level
-    }else{
-        level = level -1 <= 1 ? 1 : level -1
-        level_btn_click = level
-        break_starter = false
-        
-
-        blind_time_key = 'time' + level
-        time = theStructure.structure[blind_time_key] * 60
-
-        change_structure()
-        document.getElementById("level").innerHTML = 'Level' +" "+ level
-    }
     min = parseInt(time/60) % 60 < 10 ? '0' + parseInt(time/60) % 60 : parseInt(time/60) % 60;
     sec = parseInt(time%60) < 10 ? '0' + parseInt(time%60) : parseInt(time%60);
 
     document.getElementById("main_timer").innerHTML = min + ':' + sec ;
-    console.log("레벨",level)
-    console.log("num",level_btn_click)
-    console.log(break_starter)
 }
-
-
-
-function chip_in(){
-    extra_chip = extra_chip + Number(document.getElementById("extra_chip").value)
-    console.log("추가",extra_chip)
-    document.getElementById("extra_chip").value = ""
-    chip_update()
-}
-function chip_out(){
-    extra_chip = extra_chip - Number(document.getElementById("extra_chip").value)
-    console.log("추가",extra_chip)
-    document.getElementById("extra_chip").value = ""
-    chip_update()
-}
-
-function cash_in(){
-    extra_cash += Number(document.getElementById("extra_cash").value)
-    console.log("추가",extra_cash)
-    document.getElementById("extra_cash").value = ""
-    cash_update()
-}
-
-function cash_out(){
-    extra_cash -= Number(document.getElementById("extra_cash").value)
-    console.log("추가",extra_cash)
-    document.getElementById("extra_cash").value = ""
-    cash_update()
-}
-
-function cash_update(){
-    totalPrize = ((buy_in_cash * entries) + (Re_buy_in_cash*rebuys) + (add_on_cash*addons) + extra_cash)*(total_prize_pct/100)
-    document.getElementById("total_prize").innerHTML = totalPrize.toLocaleString()
-
-    totalCash = (buy_in_cash * entries) + (Re_buy_in_cash*rebuys) + (add_on_cash*addons) + extra_cash
-    document.getElementById("total_cash_bottom").innerHTML = totalCash.toLocaleString()
-
-    let first_prize = totalCash * (first_prize_pct / 100) 
-    let second_prize = totalCash * (second_prize_pct / 100)
-    let third_prize = totalCash * (third_prize_pct / 100)
-    let fourth_prize = totalCash * (fourth_prize_pct / 100)
-    let fifth_prize = totalCash * (fifth_prize_pct / 100)
-    let sixth_prize = totalCash * (sixth_prize_pct / 100)
-    let seventh_prize = totalCash * (seventh_prize_pct / 100)
-    let eighth_prize = totalCash * (eighth_prize_pct / 100)
-    let ninth_prize = totalCash * (ninth_prize_pct / 100)
-
-    document.getElementById("top_first_prize").innerHTML = first_prize.toLocaleString()
-    document.getElementById("top_second_prize").innerHTML = second_prize.toLocaleString()
-    document.getElementById("top_third_prize").innerHTML = third_prize.toLocaleString()
-    document.getElementById("top_fourth_prize").innerHTML = fourth_prize.toLocaleString()
-    document.getElementById("top_fifth_prize").innerHTML = fifth_prize.toLocaleString()
-    document.getElementById("top_sixth_prize").innerHTML = sixth_prize.toLocaleString()
-    document.getElementById("top_seventh_prize").innerHTML = seventh_prize.toLocaleString()
-    document.getElementById("top_eighth_prize").innerHTML = eighth_prize.toLocaleString()
-    document.getElementById("top_ninth_prize").innerHTML = ninth_prize.toLocaleString()
-
-}
-
-function chip_update(){
-    let totalChips = (buy_in_chip * entries) + (Re_buy_in_chip*rebuys) + (add_on_chip*addons) + extra_chip
-    avgChips = totalChips == 0 && players == 0 ? 0 : totalChips / players
-
-    document.getElementById("avg_chips").innerHTML = avgChips.toLocaleString()
-    document.getElementById("avg_chips_bottom").innerHTML = avgChips.toLocaleString()
-    document.getElementById("total_chips").innerHTML = totalChips.toLocaleString()
-
-}
-
-set_button()
-
