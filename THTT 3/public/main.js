@@ -332,10 +332,10 @@ function set_button(){
     fourth_prize_pct = Number(document.getElementById("fourth_prize").value)
     fifth_prize_pct = Number(document.getElementById("fifth_prize").value)
     sixth_prize_pct = Number(document.getElementById("sixth_prize").value)
-    seventh_prize_pct = Number(document.getElementById("seventh_prize").value)
+    /* seventh_prize_pct = Number(document.getElementById("seventh_prize").value)
     eighth_prize_pct = Number(document.getElementById("eighth_prize").value)
-    ninth_prize_pct = Number(document.getElementById("ninth_prize").value)
-    total_prize_pct = first_prize_pct+second_prize_pct+third_prize_pct+fourth_prize_pct+fifth_prize_pct+sixth_prize_pct+seventh_prize_pct+eighth_prize_pct+ninth_prize_pct
+    ninth_prize_pct = Number(document.getElementById("ninth_prize").value) */
+    total_prize_pct = first_prize_pct+second_prize_pct+third_prize_pct+fourth_prize_pct+fifth_prize_pct+sixth_prize_pct/* +seventh_prize_pct+eighth_prize_pct+ninth_prize_pct */
 
 
     document.getElementById("show_buy_in_chip").innerHTML = buy_in_chip.toLocaleString() 
@@ -581,9 +581,9 @@ function cash_update(){
     document.getElementById("top_fourth_prize").innerHTML = fourth_prize.toLocaleString()
     document.getElementById("top_fifth_prize").innerHTML = fifth_prize.toLocaleString()
     document.getElementById("top_sixth_prize").innerHTML = sixth_prize.toLocaleString()
-    document.getElementById("top_seventh_prize").innerHTML = seventh_prize.toLocaleString()
+   /*  document.getElementById("top_seventh_prize").innerHTML = seventh_prize.toLocaleString()
     document.getElementById("top_eighth_prize").innerHTML = eighth_prize.toLocaleString()
-    document.getElementById("top_ninth_prize").innerHTML = ninth_prize.toLocaleString()
+    document.getElementById("top_ninth_prize").innerHTML = ninth_prize.toLocaleString() */
 
 }
 
@@ -591,8 +591,8 @@ function chip_update(){
     let totalChips = (buy_in_chip * entries) + (Re_buy_in_chip*rebuys) + (add_on_chip*addons) + extra_chip
     avgChips = totalChips == 0 && players == 0 ? 0 : totalChips / players
 
-    document.getElementById("avg_chips").innerHTML = avgChips.toLocaleString()
-    document.getElementById("avg_chips_bottom").innerHTML = avgChips.toLocaleString()
+    document.getElementById("avg_chips").innerHTML = Math.ceil(avgChips).toLocaleString()
+    document.getElementById("avg_chips_bottom").innerHTML = Math.ceil(avgChips).toLocaleString()
     document.getElementById("total_chips").innerHTML = totalChips.toLocaleString()
 
 }

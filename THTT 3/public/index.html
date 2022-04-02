@@ -11,9 +11,11 @@
 <body>
     <div class="timer_section d-flex justify-content-around flex-column align-items-center">
         <div class="timer_nav d-flex">
-            <div class="timer_nav_title" id="nav_title">Lucky lounge</div>
-            <div class="d-flex justify-content-end pe-5 align-items-center">
-                <div class="dropdown text-center">
+            <div class="timer_nav_title" id="nav_title">
+                Lucky lounge
+            </div>
+            <div class="nav_dropdown d-flex justify-content-center align-items-center">
+                <div class="dropdown text-center d-flex justify-content-center align-items-center">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="setList">
@@ -27,7 +29,7 @@
                 <div class="timer_body_lt d-flex flex-column align-items-center">
                     <div class="timer_head " >Prize</div>
                     <div class="d-flex justify-content-around" style="width:100%;">
-                        <div style="font-size: 2rem;">
+                        <div class="timer_body_cotents">
                             <div>1st</div>
                             <div>2nd</div>
                             <div>3rd</div>
@@ -38,7 +40,7 @@
                             <div>8th</div>
                             <div>9th</div> -->
                         </div>
-                        <div style="font-size: 2rem;">
+                        <div class="timer_body_cotents">
                             <div class="text-end" id ="top_first_prize">0</div>
                             <div class="text-end" id ="top_second_prize">0</div>
                             <div class="text-end" id ="top_third_prize">0</div>
@@ -53,7 +55,7 @@
                 </div>
                 <div class="timer_body_lb">
                     <div class="timer_head">Total Prize</div>
-                    <div id="total_prize" style="font-size: 2rem;"> 0 </div>
+                    <div id="total_prize" class="timer_body_cotents"> 0 </div>
                 </div>
             </div>
             <div class="timer_body_c">
@@ -77,21 +79,21 @@
             <div class="timer_body_r">
                 <div class="timer_body_rt">
                     <div class="timer_head">Next Level</div>
-                    <div id="next" style="font-size: 2rem;">0/0(0)</div>
+                    <div id="next" class="timer_body_cotents">0/0(0)</div>
                 </div>
                 <div class="timer_body_rc">
                     <div class="timer_head">Average Stack</div>
-                    <div id="avg_chips" style="font-size: 2rem;"> 0 </div>
+                    <div id="avg_chips" class="timer_body_cotents"> 0 </div>
                 </div>
                 <div class="timer_body_rb">
                     <div class="timer_head">Players</div>
-                    <div id="player_num" style="font-size: 2rem;"> 0/0 </div>
+                    <div id="player_num" class="timer_body_cotents"> 0/0 </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="control_section">
-        <div class=" d-flex justify-content-around">
+        <div class=" d-flex justify-content-around btn_control">
             <div class="d-flex align-items-center justify-content-center control_button">
                 <div class="d-flex flex-column align-items-center justify-content-center">
                     <div>Entries</div>
@@ -128,7 +130,7 @@
                         <button type="button" class="btn btn-secondary  btn-sm" onclick="level_minus()">-</button>
                     </div>
                 </div>
-                <div class="ms-4">
+                <div class="ms-4 in_out" >
                     <div class="d-flex control_input align-items-center justify-content-center">
                         <div>Chip in/out</div>
                         <input type="number" id="extra_chip" class="ms-2">
@@ -144,7 +146,7 @@
                 </div>
             </div>
 
-            <div class=" d-flex flex-column align-items-center justify-content-center">
+            <div class="start_btn">
                 <div id="play">
                     <button type="button" class="btn btn-secondary  btn-lg" onclick="play()" >Start</button>
                 </div>
@@ -161,45 +163,45 @@
             <div class="control_table status_area">
                 <div class="control_bottom text-center">Status</div>
                 <div class="d-flex align-items-center justify-content-between control_bottom ">
-                    <div class="fs-5">Players</div>
+                    <div class="status_area_name">Players</div>
                     <div id="player_num_bottom">0/0</div>
                 </div>
                 <div class="d-flex align-items-center justify-content-between control_bottom ">
-                    <div class="fs-5">Rebuys</div>
+                    <div class="status_area_name">Rebuys</div>
                     <div id="re_buy">0</div>
                 </div>
                 <div class="d-flex align-items-center justify-content-between">
-                    <div class="fs-5">Addons</div>
+                    <div class="status_area_name">Addons</div>
                     <div id="add_on">0</div>
                 </div>
             </div>
             <div class="control_table statistics_area">
                 <div class="control_bottom text-center">Statistics</div>
                 <div class="d-flex align-items-center justify-content-between control_bottom ">
-                    <div class="fs-5">Average Stack</div>
+                    <div class="status_area_name">Average Stack</div>
                     <div id="avg_chips_bottom">0</div>
                 </div>
                 <div class="d-flex align-items-center justify-content-between control_bottom ">
-                    <div class="fs-5">Total Chip</div>
+                    <div class="status_area_name">Total Chip</div>
                     <div id="total_chips">0</div>
                 </div>
                 <div class="d-flex align-items-center justify-content-between">
-                    <div class="fs-5">Total Cash</div>
+                    <div class="status_area_name">Total Cash</div>
                     <div id="total_cash_bottom">0</div>
                 </div>
             </div>
-            <div class="control_table setting_area">
+            <div class="control_table setting_area status_area_setting">
                 <div class="control_bottom text-center">Setting</div>
                 <div class="d-flex align-items-center justify-content-between control_bottom ">
-                    <div class="fs-5">Buy-in</div>
+                    <div class="status_area_name">Buy-in</div>
                     <div id="show_buy_in_chip">0</div>
                 </div>
                 <div class="d-flex align-items-center justify-content-between control_bottom ">
-                    <div class="fs-5">Re-buy-in</div>
+                    <div class="status_area_name">Re-buy-in</div>
                     <div id="show_Re_buy_in_chip">0</div>
                 </div>
                 <div class="d-flex align-items-center justify-content-between">
-                    <div class="fs-5">Add-on</div>
+                    <div class="status_area_name">Add-on</div>
                     <div id="show_add_on_chip">0</div>
                 </div>
             </div>
@@ -290,7 +292,7 @@
                                 <th class="text-center">6</th>
                                 <td class="d-flex justify-content-center"><input class=" text-center" value="0" id="sixth_prize"></td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <th class="text-center">7</th>
                                 <td class="d-flex justify-content-center"><input class=" text-center" value="0" id="seventh_prize"></td>
                             </tr>
@@ -301,7 +303,7 @@
                             <tr>
                                 <th class="text-center">9</th>
                                 <td class="d-flex justify-content-center"><input class=" text-center" value="0" id="ninth_prize"></td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
