@@ -79,7 +79,7 @@ function load_list(){
     let lists = []  
     getData(function(blindList){
         for(let i = 0 ; i < blindList.length ; i++){
-            lists.push(` <li><a class="dropdown-item text-center" href="#${blindList[i].id}">${blindList[i].structure.title}</a></li>
+            lists.push(` <li><a class="dropdown-item text-center" href="#/structure/${blindList[i].id}">${blindList[i].structure.title}</a></li>
             `)
         }
         lists.push('<li><a class="dropdown-item text-center" href="./blind Structure/blind_structure.html" style="border-top:1px solid black"><b>Setting</b></a></li>')
@@ -90,7 +90,7 @@ function load_list(){
 
 function load_structure(){
     load_list()
-    let theId = location.hash.substring(1)
+    let theId = location.hash.substring(12)
     getData(function(blindList){
         theStructure = blindList.find(doc => doc.id == theId)
 
@@ -140,7 +140,7 @@ function load_structure(){
 
 
 function change_structure(){
-    let theId = location.hash.substring(1)
+    let theId = location.hash.substring(12)
     getData(function(blindList){
         let sb_key = 'sb'+ level
         let bb_key = 'bb'+ level
@@ -273,8 +273,11 @@ function b_timer(){
 }
 
 function play(){
-    btn = true
+    let routePath = location.hash;
+    if(routePath.indexOf("structure") != -1){
+        btn = true
     timer()
+    }
 }
 
 function stop(){
