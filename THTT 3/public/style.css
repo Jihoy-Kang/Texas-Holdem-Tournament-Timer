@@ -21,6 +21,15 @@
 
 .timer_nav_title {
   width: 100%;
+
+}
+
+
+.timer_nav_title img{
+  height: 90%;
+  position: relative;
+  left : 42px;
+  padding:10px;
 }
 
 .timer_body {
@@ -248,7 +257,7 @@ input {
     font-size: 2rem;
   }
 
-  .setting_section {
+  .setting_section {cd
     height: 50vmax;
     background-color: rgb(233, 233, 214);
   }

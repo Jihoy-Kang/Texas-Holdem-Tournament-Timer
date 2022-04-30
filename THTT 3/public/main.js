@@ -115,7 +115,7 @@ function load_structure(){
         ante = Number(at).toLocaleString()
         next = Number(n_sb).toLocaleString() + " / " + Number(n_bb).toLocaleString() + "(" + Number(n_at).toLocaleString() + ")"
 
-        document.getElementById("nav_title").innerHTML = theStructure.structure.title
+        /* document.getElementById("nav_title").innerHTML = theStructure.structure.title */
         document.getElementById("level").innerHTML = 'Level' +" "+ level
         document.getElementById("blind").innerHTML = blind
         document.getElementById("ante").innerHTML = ante
